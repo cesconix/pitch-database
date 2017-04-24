@@ -11,6 +11,7 @@
     "url": "git@github.com:cesconix/pitch-database.git"
   },
   "dependencies": {
+    "mongoose": "^4.9.6",
     "pitch-config": "git+ssh://git@github.com/cesconix/pitch-config.git"
   },
   "devDependencies": {
