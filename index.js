@@ -1,21 +1,44 @@
 const mongoose = require('mongoose')
+const debug = require('debug')('pitch-database')
 const config = require('pitch-config')
 
-const util = require('util')
-const debug = require('debug')('pitch-database:index')
+const models = require('./models')
+
+mongoose.connection.on('connected', () => {
+  debug(`Connected to "${config.database.uri}" db.`)
+})
+
+mongoose.connection.on('error', (err) => {
+  debug(`Failed to connect to "${config.database.uri}" db.`, err)
+})
+
+mongoose.connection.on('disconnected', () => {
+  debug(`Mongoose default connection to "${config.database.uri}" db disconnected`)
+})
 
 function connect () {
-  mongoose.connect(config.database.uri, { server: { socketOptions: { keepAlive: 1 } } })
-  mongoose.connection.on('error', () => {
-    throw new Error(`Unable to connect to database "${config.database.uri}"`)
+  try {
+    mongoose.connect(config.database.uri, {
+      server: {
+        socketOptions: {
+          keepAlive: 1
+        }
+      }
+    })
+    debug(`Trying to connect to db "${config.database.uri}"`)
+  } catch (err) {
+    debug(`Sever initialization failed: ${err.message}`)
+  }
+}
+
+function gracefulExit () {
+  mongoose.connection.close(() => {
+    process.exit(0)
   })
 }
 
-mongoose.set('debug', (collectionName, method, query, doc) => {
-  debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc)
-})
+process
+  .on('SIGINT', gracefulExit)
+  .on('SIGTERM', gracefulExit)
 
-module.exports = {
-  models: require('./models'),
-  connect
-}
+module.exports = { models, connect }
