@@ -4,6 +4,8 @@ const config = require('pitch-config')
 
 const models = require('./models')
 
+mongoose.Promise = require('bluebird')
+
 mongoose.connection.on('connected', () => {
   debug(`Connected to "${config.database.uri}" db.`)
 })
@@ -13,7 +15,7 @@ mongoose.connection.on('error', (err) => {
 })
 
 mongoose.connection.on('disconnected', () => {
-  debug(`Mongoose default connection to "${config.database.uri}" db disconnected`)
+  debug(`Mongoose default connection to "${config.database.uri}" db disconnected.`)
 })
 
 function connect () {
@@ -25,9 +27,9 @@ function connect () {
         }
       }
     })
-    debug(`Trying to connect to db "${config.database.uri}"`)
+    debug(`Trying to connect to db "${config.database.uri}".`)
   } catch (err) {
-    debug(`Sever initialization failed: ${err.message}`)
+    debug(`Sever initialization failed: ${err.message}.`)
   }
 }
 
