@@ -45,7 +45,15 @@ const UserSchema = new Schema({
       type: String,
       required: true
     },
-    friends: []
+    friends: {
+      type: Array,
+      default: [],
+      require: true
+    }
+  },
+  score: {
+    type: Number,
+    default: 0
   },
   socket: {
     id: {
