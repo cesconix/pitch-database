@@ -47,13 +47,14 @@ const UserSchema = new Schema({
     },
     friends: {
       type: Array,
-      default: [],
-      require: true
+      default: []
     }
   },
-  score: {
-    type: Number,
-    default: 0
+  meta: {
+    score: {
+      type: Number,
+      default: 0
+    }
   },
   socket: {
     id: {
@@ -65,12 +66,8 @@ const UserSchema = new Schema({
       default: -1
     }
   },
-  random: Number,
-  created: {
-    type: Date,
-    default: Date.now
-  }
-})
+  random: Number
+}, { timestamps: true })
 
 UserSchema.statics.connect = (userId, socketId) => {
   this.findOneAndUpdate(
