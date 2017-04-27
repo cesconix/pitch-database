@@ -1,33 +1,32 @@
 const mongoose = require('mongoose')
 const debug = require('debug')('pitch-database')
-const config = require('pitch-config')
 
 const models = require('./models')
 
-mongoose.Promise = require('bluebird')
+function connect (uri) {
+  mongoose.Promise = require('bluebird')
 
-mongoose.connection.on('connected', () => {
-  debug(`Connected to "${config.database.uri}" db.`)
-})
+  mongoose.connection.on('connected', () => {
+    debug(`Connected to "${uri}" db.`)
+  })
 
-mongoose.connection.on('error', (err) => {
-  debug(`Failed to connect to "${config.database.uri}" db.`, err)
-})
+  mongoose.connection.on('error', (err) => {
+    debug(`Failed to connect to "${uri}" db.`, err)
+  })
 
-mongoose.connection.on('disconnected', () => {
-  debug(`Mongoose default connection to "${config.database.uri}" db disconnected.`)
-})
+  mongoose.connection.on('disconnected', () => {
+    debug(`Mongoose default connection to "${uri}" db disconnected.`)
+  })
 
-function connect () {
   try {
-    mongoose.connect(config.database.uri, {
+    mongoose.connect(uri, {
       server: {
         socketOptions: {
           keepAlive: 1
         }
       }
     })
-    debug(`Trying to connect to db "${config.database.uri}".`)
+    debug(`Trying to connect to db "${uri}".`)
   } catch (err) {
     debug(`Sever initialization failed: ${err.message}.`)
   }

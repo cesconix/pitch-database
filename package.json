@@ -13,8 +13,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "debug": "^2.6.4",
-    "mongoose": "^4.9.6",
-    "pitch-config": "git+ssh://git@github.com/cesconix/pitch-config.git"
+    "mongoose": "^4.9.6"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
