@@ -1,7 +1,7 @@
 {
   "name": "pitch-database",
   "version": "1.0.0",
-  "description": "Pitch Database",
+  "description": "Pitch.im - Database Connection",
   "main": "index.js",
   "scripts": {},
   "author": "Francesco Pasqua <cesconix@me.com>",
